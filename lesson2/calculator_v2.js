@@ -7,7 +7,7 @@ Perform the calculation and display the result.
 */
 
 
-// checks to see if input is either 0 or a valid number
+// checks to see if input is a valid number
 function isValidNum(num) {
   if (num === 0) {
     return true
@@ -33,7 +33,7 @@ function isValidOperator(operator) {
   return false
 }
 
-//checks if the operator causes a zero division error
+// checks if the operator causes a zero division error
 function zeroDivError(operator) {
   if ((num2 === 0) && (operator === '/')) {
     console.log('\nCannot divide by zero! Try again\n')
