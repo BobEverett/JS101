@@ -6,8 +6,6 @@ Perform the calculation and display the result.
 
 */
 
-
-
 // initialize variables num1, num2, result
 let num1, num2, operator, result;
 
@@ -29,7 +27,7 @@ if ((typeof num2 !== 'number') || isNaN(num2)) {
 }
 
 // ask user to enter a mathematical operator
-operator = (rlsync.question('Enter a mathematical operator ( + | - | * | / ): '));
+operator = rlsync.question('Enter a mathematical operator ( + | - | * | / ): ');
 
 // check for zero division error
 if ((num2 === 0) && (operator === '/')) {
