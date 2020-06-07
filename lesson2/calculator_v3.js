@@ -31,20 +31,20 @@ function isValidNum(num) {
 function isValidOperator(operator) {
   let validOperators = ['*', '/', '+', '-'];
   if (validOperators.includes(operator)) {
-      return true;
-    } else {
-      return false;
-    }
+    return true;
+  } else {
+    return false;
+  }
 }
 
 // checks if the operator causes a zero division error
 function zeroDivError(operator) {
-  if ((num2 === 0) && (operator === '/')) {
-    return false;
-  } else {
+  if ((Number(num2) === 0) && (operator === '/')) {
     return true;
+  } else {
+    return false;
   }
-} 
+}
 
 // helper function to make output more attractive
 function prompt(message) {
@@ -56,33 +56,33 @@ function prompt(message) {
 prompt('Welcome to Calculator!');
 
 do { //allows user to keep using calculator or to quit
-
-    prompt('Enter your first number:');
-    num1 = (rlsync.question('\t'));
-    
+  prompt('Enter your first number:');
+  num1 = (rlsync.question('\t'));
   while (isValidNum(num1)) {
     prompt('Hmm... that doesn\'t look like a valid number.');
-    num1 = (rlsync.question('\t'));   
+    num1 = (rlsync.question('\t'));
   }
 
-    prompt('Enter your second number:');
-    num2 = (rlsync.question('\t'));
+  prompt('Enter your second number:');
+  num2 = (rlsync.question('\t'));
 
   while (isValidNum(num2)) {
     prompt('Hmm... that doesn\'t look like a valid number.');
-    num2 = (rlsync.question('\t'));  
+    num2 = (rlsync.question('\t'));
   }
-
 
   prompt('Enter a mathematical operator ( + | - | * | / ): ');
   operator = rlsync.question('\t');
-  
-  
-  while(zeroDivError(operator)) {
-    prompt('Hmm... that doesn\'t look like a valid operator.');      
-    operator = rlsync.question('\t');
-    }
 
+  while (!isValidOperator((operator))) {
+    prompt('Hmm... that doesn\'t look like a valid operator');
+    operator = rlsync.question('\t');
+  }
+
+  while (zeroDivError(operator)) {
+    prompt('Hmm... can\'t divide by zero. Try again');
+    operator = rlsync.question('\t');
+  }
 
   // calculate results from input
   switch (operator) {
@@ -103,7 +103,7 @@ do { //allows user to keep using calculator or to quit
   // display results
   // decimals set at two places
   // very large/small numbers to exponential form
-  
+
   if (result.toString().length > 6) {
     console.log(`\n${num1} ${operator} ${num2} = ${result.toExponential(3)}\n`);
   } else if (Number.isInteger(result)) {
