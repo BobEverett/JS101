@@ -1,0 +1,13 @@
+{
+    "welcome": "Welcome to the Mortgage Calculator! Enter your name:",
+    "greeting": "Hi!",
+    "loan": "Enter your loan amount:",
+    "loanAmountError": "Hmm... that doesn't look like a valid number. Please re-enter loan amount: ",
+    "interestRate": "Enter interest rate (ex. 5.75): ",
+    "interestRateError": "Hmm... that doesn't look like a valid number.  Please re-enter your interest rate (ex. 5.75): ",
+    "loanLength": "Enter your loan length in YEARS: ",
+    "loanLengthError":"Hmm... that doesn't look like a valid number. Please re-enter your loan length in YEARS: : ",
+    "monthlyPayment":"Your monthly payment will be: $",
+    "calcAgain": "Press enter to enter a new loan amount, or press any letter to stop: ",
+    "goodbye": "See you later!\n"
+}

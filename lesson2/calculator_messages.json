@@ -1,0 +1,38 @@
+{
+  "english" :{
+    "welcome": "Welcome to Calculator! Enter your name:",
+    "greeting": "Hi!",
+    "firstNumber": "Enter your first number",
+    "secondNumber": "Enter your second number",
+    "selectOperator": "Enter a mathematical operator ( + | - | * | / ): ",
+    "numberError": "Hmm... that doesn't look like a valid number.",
+    "operatorError":"Hmm... that doesn't look like a valid operator",
+    "zeroDivError":"Hmm... can't divide by zero. Try again",
+    "calcAgain": "Press enter to keep going, or press any letter to stop: ",
+    "goodbye": "See you later!"
+  },
+  "french" : {
+    "welcome":"Bienvenue dans Calculatrice! Entrez votre nom: ",
+    "greeting":"Bonjour!",
+    "firstNumber":"Entrez votre premier numéro: ",
+    "secondNumber":"Entrez votre deuxième numéro: ", 
+    "selectOperator": "Entrez un opérateur mathématique ( + | - | * | / ): ",
+    "numberError":"Hmm ... ça ne ressemble pas à un nombre valide.",
+    "operatorError":"Hmm ... cela ne ressemble pas à un opérateur valide.",
+    "zeroDivError":"Hmm ... ne peut pas diviser par zéro. Réessayer.",
+    "calcAgain":"Appuyez sur Entrée pour continuer, ou sur n'importe quelle lettre pour arrêter: ",
+    "goodbye": "À plus tard!"
+  },
+  "spanish" : {
+    "welcome":"Bienvenido a la calculadora! Introduzca su nombre: ",
+    "greeting":"Buenos dias!",
+    "firstNumber":"Ingrese su primer número: ",
+    "secondNumber":"Ingrese su segundo número: ", 
+    "selectOperator": "Ingrese un operador matemático ( + | - | * | / ): ",
+    "numberError":"Hmm ... no parece un número válido.",
+    "operatorError":"Hmm ... no parece un operador válido.",
+    "zeroDivError":"Hmm ... no se puede dividir por cero. Volver a intentar.",
+    "calcAgain":"Presione Entrar para continuar, o cualquier letra para detener: ",
+    "goodbye": "Nos vemos más tarde!"
+  }
+}
