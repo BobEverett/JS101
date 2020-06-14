@@ -1,4 +1,4 @@
-// import function from functionModules to print format output as US Dollar
+// import functions and data from external files
 const fModules = require("./functionModules.js");
 const fs = require('fs');
 const rlsync = require('readline-sync');
@@ -24,14 +24,14 @@ function getLoanAmount() {
 
   while (isNotNumber(loanAmount)) {
     fModules.prompt(MESSAGES['loanAmountError']);
-    loanAmount = rlsync.question('>>\t'); //string
+    loanAmount = rlsync.question('>>\t');
   }
   return loanAmount;
 }
 
 function getAnnualInterestRate() {
   fModules.prompt(MESSAGES['interestRate']);
-  let annualInterestRate = String((rlsync.question('\t')) / 100); //string
+  let annualInterestRate = String((rlsync.question('\t')) / 100);
 
   while (isNotNumber(annualInterestRate)) {
     fModules.prompt(MESSAGES['interestRateError']);
@@ -55,13 +55,13 @@ function getLoanDuration() {
 function getMonthlyPayment(loanAmount, monthlyInterestRate, loanLengthMonths) {
   monthlyPayment = Number(loanAmount) *
   (monthlyInterestRate /
-  (1 - (1 + monthlyInterestRate) ** (-loanLengthMonths)));
+  (1 - Math.pow((1 + monthlyInterestRate), (-loanLengthMonths))));
   return monthlyPayment;
 }
 
 // Start Program
-fModules.prompt(MESSAGES['welcome']);
 
+fModules.prompt(MESSAGES['welcome']);
 userName = (rlsync.question('\t'));
 fModules.prompt(MESSAGES['greeting'], userName);
 
@@ -85,6 +85,7 @@ do {
   fModules.prompt(MESSAGES['calcAgain']);
   newLoan = rlsync.question('\t');
   console.clear();
+
 } while (!newLoan);
 
 console.clear();
