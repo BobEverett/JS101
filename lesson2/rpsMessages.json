@@ -1,0 +1,18 @@
+{
+  "greeting": "Welcome to the Rock, Paper, Scissors Game!",
+  "welcome": "Hi!",
+  "rules": "Here are the rules of the game:\n    - You will play against the computer.\n    - Enter your choice as 'r'-for Rock, 'p'-for Paper or 's'-for Scissors.\n    - The computer will make it's choice.  \n    - May the best player win!\n",
+  "userInput": "Starting hand...Enter r, p or s:",
+  "notValidChoice":"Hmm...that's not a valid choice.  Please enter r, p or s.",
+  "compPlay":"The computer played ",
+  "computer": "Computer wins!\n",
+  "user": "You win!\n",
+  "draw": "It's a TIE! Play Again...\n",
+  "playAgain": "Enter 'y' to play again or 'q' to quit the game: ",
+  "invalidResponse":"Hmm... you must enter a 'y' to continue or q' to quit: ",
+  "continuePlay": "Playing again...Enter your choice:",
+  "goodbye": "See you later!\n",
+  "computerWon": "Sorry, but the computer won.  Better luck next time.",
+  "youWon": "You won! Way to go!",
+  "nobodyWon": "The game ended in a tie - No winner here."
+}

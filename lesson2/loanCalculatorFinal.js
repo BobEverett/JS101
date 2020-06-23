@@ -6,8 +6,6 @@ const fileData = fs.readFileSync('./loanCalculatorMessages.json', 'utf8');
 const MESSAGES = JSON.parse(fileData);
 
 let loanAmount,
-  monthlyInterestRate,
-  loanLengthMonths,
   monthlyPayment,
   newLoan,
   userName;
@@ -23,7 +21,11 @@ function getLoanAmount() {
   loanAmount = rlsync.question('\t');
 
   while (isNotNumber(loanAmount)) {
-    fModules.prompt(MESSAGES['loanAmountError']);
+    if (Number(loanAmount) < 0) {
+      fModules.prompt(MESSAGES['negativeNumber']);
+    } else {
+      fModules.prompt(MESSAGES['loanAmountError']);
+    }
     loanAmount = rlsync.question('>>\t');
   }
   return loanAmount;
@@ -34,7 +36,11 @@ function getAnnualInterestRate() {
   let annualInterestRate = String((rlsync.question('\t')) / 100);
 
   while (isNotNumber(annualInterestRate)) {
-    fModules.prompt(MESSAGES['interestRateError']);
+    if (Number(annualInterestRate) < 0) {
+      fModules.prompt(MESSAGES['negativeNumber']);
+    } else {
+      fModules.prompt(MESSAGES['interestRateError']);
+    }
     annualInterestRate = String((rlsync.question('\t') / 100));
   }
   return annualInterestRate;
@@ -46,7 +52,15 @@ function getLoanDuration() {
   while ((Number.isInteger(Number(loanLengthYrs)) === false ) ||
       (isNotNumber(loanLengthYrs)) ||
       (Number(loanLengthYrs) > 30 )) {
-    fModules.prompt(MESSAGES['loanLengthError']);
+        if (!Number.isInteger(Number(loanLengthYrs))) {
+          fModules.prompt(MESSAGES['loanLengthFloat']);
+        } else if (Number(loanLengthYrs) > 30) {
+          fModules.prompt(MESSAGES['loanLengthOver30']);         
+        } else if ((Number(loanLengthYrs)) < 0) {
+          fModules.prompt(MESSAGES['negativeNumber']);
+        } else {
+          fModules.prompt(MESSAGES['loanLengthError']);          
+        }
     loanLengthYrs = (rlsync.question('\t'));
   }
   return loanLengthYrs;
@@ -63,20 +77,16 @@ function getMonthlyPayment(loanAmount, monthlyInterestRate, loanLengthMonths) {
 
 fModules.prompt(MESSAGES['welcome']);
 userName = (rlsync.question('\t'));
-fModules.prompt(MESSAGES['greeting'], userName);
+fModules.prompt(MESSAGES['greeting'], userName.trimStart);
 
 
 do {
 
   console.log('*'.repeat(50));
 
-  loanAmount = Number(getLoanAmount());
-  monthlyInterestRate = Number(getAnnualInterestRate()) / 12;
-  loanLengthMonths = Number(getLoanDuration()) * 12;
-
-  monthlyPayment = getMonthlyPayment(loanAmount,
-    monthlyInterestRate,
-    loanLengthMonths);
+  monthlyPayment = getMonthlyPayment(Number(getLoanAmount()),
+    (Number(getAnnualInterestRate()) / 12),
+    (Number(getLoanDuration()) * 12));
 
   console.log('\nYour monthly payment is: $' +
     fModules.printAsCurrency(monthlyPayment.toFixed(2)));
@@ -84,9 +94,13 @@ do {
 
   fModules.prompt(MESSAGES['calcAgain']);
   newLoan = rlsync.question('\t');
-  console.clear();
 
-} while (!newLoan);
+  while (newLoan.toLowerCase() !== 'y' && newLoan.toLowerCase() !== 'q') {
+    fModules.prompt(MESSAGES['invalidResponse']);
+    newLoan = rlsync.question('\t');
+  }
+  console.clear();
+} while (newLoan !== 'q');
 
 console.clear();
 fModules.prompt(MESSAGES['goodbye']);

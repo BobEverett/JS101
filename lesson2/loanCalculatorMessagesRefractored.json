@@ -5,8 +5,8 @@
         "invalidEntry": "Hmm... that doesn't look like a valid number. Please re-enter loan amount: ",
         "negativeNumber": "Hmm...negative numbers don't work for a loan.  Please re-enter a positive value: ",
         "monthlyPayment":"Your monthly payment will be: $",
-        "calcAgain": "Enter -y- to calculate a new loan, or -q- to quit the calculator: ",
-        "invalidResponse":"Hmm... you must enter a -y- or -q- to continue.  Please re-enter -y- to continue or -q- to quit: ",
+        "calcAgain": "Enter 'y' to calculate a new loan, or 'q' to quit the calculator: ",
+        "invalidResponse":"Hmm... you must enter a 'y' or 'q' to continue.  Please re-enter 'y' to continue or q' to quit: ",
         "goodbye": "See you later!\n"
     },
     
