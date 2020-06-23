@@ -12,17 +12,20 @@ let computerScore = 0;
 let tieGames = 0;
 let totalGames = 0;
 let validChoices = {
-  'r' : 'ROCK',
-  'p' : 'PAPER', 
-  's' : 'SCISSORS', 
-  'l' : 'LIZARD', 
-  'k' : 'SPOCK'
-  };
-  
+  r : 'ROCK',
+  p : 'PAPER',
+  s : 'SCISSORS',
+  l : 'LIZARD',
+  k : 'SPOCK'
+};
+
+
 function welcome() {
   fModules.prompt(colors.yellow(colors.bold(MESSAGES['greeting'])));
   fModules.prompt(colors.yellow(MESSAGES['rules']));
 }
+
+let validInput = (input) => Object.keys(validChoices).includes(input);
 
 function getUserInput() {
   let userInput;
@@ -37,26 +40,24 @@ function getUserInput() {
 }
 
 function getComputerInput() {
-  let computerInput = Object.keys(validChoices)[Math.floor(Math.random() * 
-    (Object.keys(validChoices).length-1))];
+  let computerInput = Object.keys(validChoices)[Math.floor(Math.random() *
+    (Object.keys(validChoices).length - 1))];
   return computerInput;
 }
-
-let validInput = (input) => Object.keys(validChoices).includes(input);
 
 function getResults(userInput, computerInput) {
   let result;
   if (userInput === computerInput) {
     result = 'draw';
-  } else if (((userInput === 'r') && 
+  } else if (((userInput === 'r') &&
             ((computerInput === 'p') || (computerInput === 'k'))) ||
-            ((userInput === 'p') && 
+            ((userInput === 'p') &&
             ((computerInput === 's') || (computerInput === 'l'))) ||
-            ((userInput === 's') && 
+            ((userInput === 's') &&
             ((computerInput === 'r') || (computerInput === 'k'))) ||
-            ((userInput === 'l') && 
+            ((userInput === 'l') &&
             ((computerInput === 'r') || (computerInput === 's'))) ||
-            ((userInput === 'k') && 
+            ((userInput === 'k') &&
             ((computerInput === 'p') || computerInput === 'l'))) {
     result = 'computer';
   } else {
@@ -66,43 +67,25 @@ function getResults(userInput, computerInput) {
 }
 
 function displayResults(result, player, computer) {
-    if (result === 'computer') {
-      console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
+  if (result === 'computer') {
+    console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
       `the Computer played ` + colors.brightYellow(`${validChoices[computer]}...` +
       colors.brightGreen('the Computer wins!\n')));
-      computerScore++;
+    computerScore++;
   } else if (result === 'user') {
-      console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
-      `the Computer played ` + colors.brightYellow(`${validChoices[computer]}...`+
+    console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
+      `the Computer played ` + colors.brightYellow(`${validChoices[computer]}...` +
       colors.brightGreen('You win!\n')));
-      userScore++;
+    userScore++;
   } else {
-      console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
-      `the Computer played ` + colors.brightYellow(`${validChoices[computer]}...`+
+    console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
+      `the Computer played ` + colors.brightYellow(`${validChoices[computer]}...` +
       colors.brightGreen(`it's a tie!\n`)));
-      tieGames++;
+    tieGames++;
   }
   console.log(colors.bold(`\nCurrent Score: Player: ${userScore} | ` +
-    `Computer: ${computerScore}\n`));  
+    `Computer: ${computerScore}\n`));
   console.log('#'.repeat(50));
-}
-
-function playAgain() {
-  let result;
-  let answer;
-  fModules.prompt(colors.brightYellow(MESSAGES['playAgain']));
-  do {
-    answer = rlsync.question('\t');
-    if (answer.toLowerCase() === 'y') {
-      result = true;
-    } else if (answer.toLowerCase() === 'q') {
-      result = false;
-    } else {
-      fModules.prompt(colors.brightYellow(MESSAGES['invalidResponse']));
-      result = 'invalid';
-    }
-  } while (result === 'invalid');
-  return result;
 }
 
 function goodbye() {
@@ -127,7 +110,9 @@ do {
   let player = getUserInput();
   let computer = getComputerInput();
   playResult = getResults(player, computer);
-  if (totalGames % 2 === 0) {console.clear()}
+  if (totalGames % 2 === 0) {
+    console.clear();
+  }
   displayResults(playResult, player, computer);
   totalGames++;
 } while ((userScore < 5) && (computerScore < 5));
