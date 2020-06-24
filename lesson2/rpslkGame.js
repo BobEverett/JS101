@@ -10,7 +10,6 @@ console.clear();
 let userScore = 0;
 let computerScore = 0;
 let tieGames = 0;
-let totalGames = 0;
 let validChoices = {
   r : 'ROCK',
   p : 'PAPER',
@@ -21,8 +20,8 @@ let validChoices = {
 
 
 function welcome() {
-  fModules.prompt(colors.yellow(colors.bold(MESSAGES['greeting'])));
-  fModules.prompt(colors.yellow(MESSAGES['rules']));
+  fModules.prompt(colors.yellow(colors.bold(MESSAGES['greeting'] +
+      (MESSAGES['rules']))));
 }
 
 let validInput = (input) => Object.keys(validChoices).includes(input);
@@ -66,30 +65,53 @@ function getResults(userInput, computerInput) {
   return result;
 }
 
-function displayResults(result, player, computer) {
-  if (result === 'computer') {
-    console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
-      `the Computer played ` + colors.brightYellow(`${validChoices[computer]}...` +
-      colors.brightGreen('the Computer wins!\n')));
-    computerScore++;
-  } else if (result === 'user') {
-    console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
-      `the Computer played ` + colors.brightYellow(`${validChoices[computer]}...` +
-      colors.brightGreen('You win!\n')));
-    userScore++;
-  } else {
-    console.log(`\nYou played ` + colors.brightRed(`${validChoices[player]}...`) +
-      `the Computer played ` + colors.brightYellow(`${validChoices[computer]}...` +
-      colors.brightGreen(`it's a tie!\n`)));
+function updateScore(playResult) {
+  if (playResult === 'draw') {
     tieGames++;
+  } else if (playResult === 'computer') {
+    computerScore++;
+  } else {
+    userScore++;
   }
-  console.log(colors.bold(`\nCurrent Score: Player: ${userScore} | ` +
-    `Computer: ${computerScore}\n`));
-  console.log('#'.repeat(50));
 }
 
+function displayResults(result, player, computer) {
+  let phrase = [...(player + computer)].sort().join('');
+  if (result === 'computer') {
+    fModules.prompt(colors.bold(colors.brightGreen(MESSAGES['computer'] +
+      MESSAGES[phrase])));
+
+  } else if (result === 'user') {
+    fModules.prompt(colors.bold(colors.brightGreen(MESSAGES['user'] +
+      MESSAGES[phrase])));
+
+  } else {
+    fModules.prompt(colors.bold(colors.brightGreen(MESSAGES['draw'])));
+  }
+
+  if ((userScore < 5 && computerScore < 5)) {
+    displayScore();
+
+  } else {
+    displayScore('final');
+  }
+}
+
+function displayScore(score = 'current') {
+  if (score === 'current') {
+    console.log(colors.bold(`\nCurrent Score: Player: ${userScore} | ` +
+      `Computer: ${computerScore}\n`));
+    console.log('#'.repeat(50));
+
+  } else {
+    console.log(colors.bold(colors.brightYellow(`\nFinal Score: Player: ${userScore} | ` +
+      `Computer: ${computerScore} | ` +
+      `Tie Games: ${tieGames}`)));
+  }
+}
+
+
 function goodbye() {
-  console.log('#'.repeat(50));
   if (userScore > computerScore) {
     fModules.prompt(colors.bold(MESSAGES['youWon']));
   } else if (computerScore > userScore) {
@@ -97,27 +119,24 @@ function goodbye() {
   } else {
     fModules.prompt(colors.bold(MESSAGES['nobodyWon']));
   }
-  console.log(colors.bold(colors.brightGreen(`\nFinal Score: Player: ${userScore} | ` +
-  `Computer: ${computerScore} | ` +
-  `Tie Games: ${tieGames}`)));
 }
 
 // Start Main Program
 
 welcome();
+
 do {
-  let playResult;
+
   let player = getUserInput();
   let computer = getComputerInput();
-  playResult = getResults(player, computer);
-  if (totalGames % 2 === 0) {
-    console.clear();
-  }
+  let playResult = getResults(player, computer);
+
+  updateScore(playResult);
+  console.clear();
   displayResults(playResult, player, computer);
-  totalGames++;
+
 } while ((userScore < 5) && (computerScore < 5));
 
-console.clear();
 goodbye();
-fModules.prompt(colors.bold(MESSAGES['goodbye']));
+
 
