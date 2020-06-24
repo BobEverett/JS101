@@ -77,21 +77,15 @@ function updateScore(playResult) {
 
 function displayResults(result, player, computer) {
   let phrase = [...(player + computer)].sort().join('');
-  if (result === 'computer') {
-    fModules.prompt(colors.bold(colors.brightGreen(MESSAGES['computer'] +
+  if (result !== 'draw') {
+    fModules.prompt(colors.bold(colors.brightGreen(MESSAGES[result] +
       MESSAGES[phrase])));
-
-  } else if (result === 'user') {
-    fModules.prompt(colors.bold(colors.brightGreen(MESSAGES['user'] +
-      MESSAGES[phrase])));
-
   } else {
-    fModules.prompt(colors.bold(colors.brightGreen(MESSAGES['draw'])));
+    fModules.prompt(colors.bold(colors.brightGreen(MESSAGES[result])));
   }
 
   if ((userScore < 5 && computerScore < 5)) {
     displayScore();
-
   } else {
     displayScore('final');
   }
@@ -100,7 +94,8 @@ function displayResults(result, player, computer) {
 function displayScore(score = 'current') {
   if (score === 'current') {
     console.log(colors.bold(`\nCurrent Score: Player: ${userScore} | ` +
-      `Computer: ${computerScore}\n`));
+      `Computer: ${computerScore} | ` +
+      `Tie Games: ${tieGames}\n`));
     console.log('#'.repeat(50));
 
   } else {
