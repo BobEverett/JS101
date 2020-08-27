@@ -68,7 +68,7 @@ function getPlayerInput(board) {
   let playerInput = rlsync.question(`Choose your square ${emptySquares(board)}: `);
 
   while (!emptySquares(board).includes(playerInput.trim())) {   // only allow player to choose a value that is an open square
-    fModules.prompt(MESSAGES['squarePlayed']);
+    fModules.prompt(MESSAGES['invalidEntry']);
     playerInput = rlsync.question(fModules.prompt(MESSAGES['chooseSquare']));
   }
   board[playerInput] = HUMAN_MARKER;
@@ -76,7 +76,7 @@ function getPlayerInput(board) {
 }
 
 function getComputerInput(board) {
-  
+
   let computerInput = bestMove(board);
 
   board[computerInput] = COMPUTER_MARKER;
@@ -84,11 +84,12 @@ function getComputerInput(board) {
   drawBoard(board);
 }
 
-function winOrBlock(board) {
+function moveToWin(board) {
+  let oSquares = getComputerSquares(board);
   let computerInput;
   for (let num of emptySquares(board)) {
     for (let elem of WIN_COMBOS) {
-      if (elem.every(value => getComputerSquares(board).concat(num).includes(value))) {
+      if (elem.every(value => oSquares.concat(num).includes(value))) {
         computerInput = num;
         break;
       }
@@ -97,10 +98,15 @@ function winOrBlock(board) {
       }
     }
   }
-  if (computerInput === undefined)
+  return computerInput;
+}
+
+function moveToBlock(board) {
+  let xSquares = getHumanSquares(board);
+  let computerInput;
   for (let num of emptySquares(board)) {
     for (let elem of WIN_COMBOS) {
-      if (elem.every(value => getHumanSquares(board).concat(num).includes(value))) {
+      if (elem.every(value => xSquares.concat(num).includes(value))) {
         computerInput = num;
         break;
       }
@@ -108,19 +114,22 @@ function winOrBlock(board) {
         break;
       }
     }
-  }  
+  }
   return computerInput;
 }
 
 function bestMove(board) {
   let openSquares = emptySquares(board);
-  
-  if (openSquares.includes('5'))  return '5';
-  
-  let move = winOrBlock(board);
-  if (move !== undefined) return move; 
 
-  return openSquares[Math.floor(Math.random() * openSquares.length)];    
+  if (openSquares.includes('5'))  return '5';
+
+  let move = moveToWin(board);
+  if (move !== undefined) return move;
+
+  move = moveToBlock(board);
+  if (move !== undefined) return move;
+
+  return openSquares[Math.floor(Math.random() * openSquares.length)];
 }
 
 function checkForWinner(board, player) {
@@ -186,6 +195,7 @@ function goodbye() {
 }
 
 // Start Game
+fModules.prompt((MESSAGES['welcome']));
 
 do {
 

@@ -1,15 +1,14 @@
 {
-    "welcome": "Welcome to Tic Tac Toe!",
-    "greeting": "Hi!",
+    "welcome" : "Welcome to Tic Tac Toe!",
     "chooseSquare" : "Choose your square: ",
-    "invalidEntry": "Invalid entry!",
-    "squarePlayed": "Hmm...that square has been played already",
-    "youWon":"You Won!",
-    "computerWon": "The Computer Won",
-    "playAgain":"Press 'p' to play again or press 's' to stop: ",
-    "congrats": "Congratulations! You beat the computer!",
-    "sorry" : "Sorry, the computer beat you!",
-    "draw" : "It's a draw!",
+    "invalidEntry" : "Invalid entry!",
+    "squarePlayed" : "Hmm...that square has been played already",
+    "youWon" : "You Won!",
+    "computerWon" : "The Computer Won",
+    "playAgain" : "Press 'p' to play again or press 's' to stop: ",
+    "congrats" : "Congratulations! You beat the computer!\n",
+    "sorry" : "Sorry, the computer beat you!\n",
+    "draw" : "It's a draw!\n",
     "finalScore" : "Final Score: ",
-    "goodbye": "See you later!\n"
+    "goodbye" : "See you later!\n"
 }
