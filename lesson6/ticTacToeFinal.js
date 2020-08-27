@@ -75,25 +75,20 @@ function getPlayerInput(board) {
   drawBoard(board);
 }
 
-function winningMove (openSquares, oSquares, computerInput) {
-  for (let num of openSquares) {
-    for (let elem of WIN_COMBOS) {
-      if (elem.every(value => oSquares.concat(num).includes(value))) {
-        computerInput = num;
-        break;
-      }
-      if (computerInput !== undefined) {
-        break;
-      }
-    }
-  }
-  return computerInput;
+function getComputerInput(board) {
+  
+  let computerInput = bestMove(board);
+
+  board[computerInput] = COMPUTER_MARKER;
+  console.clear();
+  drawBoard(board);
 }
 
-function defensiveMove(openSquares, xSquares, computerInput) {
-  for (let num of openSquares) {
+function winOrBlock(board) {
+  let computerInput;
+  for (let num of emptySquares(board)) {
     for (let elem of WIN_COMBOS) {
-      if (elem.every(value => xSquares.concat(num).includes(value))) {
+      if (elem.every(value => getComputerSquares(board).concat(num).includes(value))) {
         computerInput = num;
         break;
       }
@@ -102,47 +97,31 @@ function defensiveMove(openSquares, xSquares, computerInput) {
       }
     }
   }
+  if (computerInput === undefined)
+  for (let num of emptySquares(board)) {
+    for (let elem of WIN_COMBOS) {
+      if (elem.every(value => getHumanSquares(board).concat(num).includes(value))) {
+        computerInput = num;
+        break;
+      }
+      if (computerInput !== undefined) {
+        break;
+      }
+    }
+  }  
   return computerInput;
 }
 
 function bestMove(board) {
   let openSquares = emptySquares(board);
-  let xSquares = getHumanSquares(board);
-  let oSquares = getComputerSquares(board);
-  let computerInput;
+  
+  if (openSquares.includes('5'))  return '5';
+  
+  let move = winOrBlock(board);
+  if (move !== undefined) return move; 
 
-  computerInput = winningMove(openSquares, oSquares, computerInput); // looks for winning move first
+  return openSquares[Math.floor(Math.random() * openSquares.length)];    
 
-  if (computerInput === undefined) { // if no winning move is found, then looks to block opponent
-    computerInput = defensiveMove(openSquares, xSquares, computerInput);
-  }
-
-  return computerInput;
-}
-
-function compareComputerChoices(openSquares, perfectMove, computerInput) {
-  if (openSquares.includes('5')) {
-    computerInput = '5';
-  } else if (perfectMove === undefined) {
-    computerInput =
-      openSquares[Math.floor(Math.random() * openSquares.length)];
-  } else {
-    computerInput = perfectMove;
-  }
-  return computerInput;
-}
-
-function getComputerInput(board) {
-  let openSquares = emptySquares(board);
-  let perfectMove = bestMove(board);
-  let computerInput;
-
-  computerInput =
-    compareComputerChoices(openSquares, perfectMove, computerInput);
-
-  board[computerInput] = COMPUTER_MARKER;
-  console.clear();
-  drawBoard(board);
 }
 
 function checkForWinner(board, player) {
