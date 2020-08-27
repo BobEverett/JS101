@@ -1,4 +1,4 @@
-const fModules = require("./functionModules.1.js");
+const fModules = require("./functionModules.js");
 const fs = require('fs');
 const rlsync = require('readline-sync');
 const fileData = fs.readFileSync('./ticTacToeMessages.json', 'utf8');
