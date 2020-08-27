@@ -121,7 +121,6 @@ function bestMove(board) {
   if (move !== undefined) return move; 
 
   return openSquares[Math.floor(Math.random() * openSquares.length)];    
-
 }
 
 function checkForWinner(board, player) {
