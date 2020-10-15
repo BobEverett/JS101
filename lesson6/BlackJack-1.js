@@ -66,16 +66,18 @@ function isAce(card) {
 }
 
 function countAceHandValue(hand) {
-  let handValue = 0;
   let tempValue = (hand.filter(card => !isAce(card))).reduce((sum, card) => {
     return sum + findCardValue(card);
   }, 0);
-  if (tempValue > 10) {
-    handValue = tempValue + 1;
-  } else {
-    handValue = tempValue + 11;
+  let numAces = hand.filter(card => (isAce(card)));
+  for (let num = numAces.length; num > 0; num--) {
+    if (tempValue > 10) {
+      tempValue += 1;
+    } else {
+      tempValue += 11;
+    }
   }
-  return handValue;
+  return tempValue;
 }
 
 function countHandValue(hand) {
@@ -95,7 +97,7 @@ function playerChoice() {
   do {
     playerInput = rlsync.question(`Press 'h' for a hit and 's' to stay: `);
     if ((!['h', 's'].includes(playerInput.toLowerCase()))) {
-      console.log("Invalid input.  Enter and 'h' or 's' only.");
+      console.log("\nInvalid input.  Enter and 'h' or 's' only.\n");
     }
   } while (!['h', 's'].includes(playerInput.toLowerCase()));
 
@@ -137,7 +139,7 @@ function newHand() {
   do {
     playerInput = rlsync.question(`Press 'p' to play a new hand or 'q' to quit playing: `);
     if ((!['p', 'q'].includes(playerInput.toLowerCase()))) {
-      console.log("Invalid input.  Enter and 'p' or 'q' only.");
+      console.log("\nInvalid input.  Enter and 'p' or 'q' only.\n");
     }
   } while (!['p','q'].includes(playerInput.toLowerCase()));
 
@@ -145,7 +147,7 @@ function newHand() {
   return true;
 }
 
-function displayResults() {
+function displayResults(personHand, dealerHand) {
   let result = determineHandWinner(personHand, dealerHand);
   if (result === 'person') {
     console.log('Good Job! You won.\n');
@@ -154,37 +156,66 @@ function displayResults() {
   } else {
     console.log("It's a draw!\n");
   }
+  return result;
+}
+
+function pauseGame() {
+  let playerInput;
+  do {
+    playerInput = rlsync.question(`Press 'r' when you're ready for the next hand to begin: `);
+    if (playerInput.toLowerCase() !== 'r') {
+      console.log("\nInvalid input.  Enter and 'r' to resume match: \n");
+    }
+  } while (playerInput.toLowerCase() !== 'r');
+  console.clear();
+}
+
+function noMatchWinner(playerHandsWon, dealerHandsWon) {
+  if ((playerHandsWon < 2) && dealerHandsWon < 2) {
+    return true;
+  }
+  return false;
 }
 
 // Game Play
+{
+  let playerHandsWon = 0;
+  let dealerHandsWon = 0;
 
-do {
-  personHand = [];
-  dealerHand = [];
-  shuffleCards();
-  console.clear();
+  do {
+    personHand = [];
+    dealerHand = [];
+    shuffleCards();
 
-  dealHand(2, deck);
-  displayCards(1);
-
-  while (playerChoice()) {
-    hitOrStay('person', deck);
+    dealHand(2, deck);
     displayCards(1);
-    if (isBusted(personHand)) {
-      break;
-    }
-  }
 
-  if (!isBusted(personHand)) {
-    displayCards(2);
-    while (!isBusted(dealerHand) && (countHandValue(dealerHand) < 17)) {
-      hitOrStay('dealer', deck);
+    while (playerChoice()) {
+      hitOrStay('person', deck);
+      displayCards(1);
+      if (isBusted(personHand)) {
+        break;
+      }
+    }
+
+    if (!isBusted(personHand)) {
       displayCards(2);
+      while (!isBusted(dealerHand) && (countHandValue(dealerHand) < 17)) {
+        hitOrStay('dealer', deck);
+        displayCards(2);
+      }
     }
-  }
+    let result = displayResults(personHand, dealerHand);
+    if (result === 'person') {
+      playerHandsWon += 1;
+    } else if (result === 'dealer') {
+      dealerHandsWon += 1;
+    }
+    if (noMatchWinner(playerHandsWon, dealerHandsWon)) {
+      console.log(`\nCurrent Score: You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`);
+      pauseGame();
+    }
+  } while (noMatchWinner(playerHandsWon, dealerHandsWon));
 
-  displayResults();
-
-} while (newHand());
-
-console.log('\nGame Over.  See you next time.');
+  console.log(`\nFinal Score: You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`);
+}
