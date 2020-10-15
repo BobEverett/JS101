@@ -121,9 +121,13 @@ function isBusted(hand) {
 }
 
 function determineHandWinner(personHand, dealerHand) {
-  if (isBusted(personHand) && !isBusted(dealerHand)) return 'dealer';
-  if (isBusted(dealerHand) && !isBusted(personHand)) return 'person';
-  if (!isBusted(personHand) && !isBusted(dealerHand)) {
+  let playerBusted = isBusted(personHand);
+  let dealerBusted = isBusted(dealerHand);
+
+  if (playerBusted) return 'dealer';
+  if (dealerBusted) return 'person';
+
+  if (!playerBusted && !dealerBusted) {
     if (countHandValue(personHand) > countHandValue(dealerHand)) {
       return 'person';
     }
@@ -134,21 +138,9 @@ function determineHandWinner(personHand, dealerHand) {
   return 'draw';
 }
 
-function newHand() {
-  let playerInput;
-  do {
-    playerInput = rlsync.question(`Press 'p' to play a new hand or 'q' to quit playing: `);
-    if ((!['p', 'q'].includes(playerInput.toLowerCase()))) {
-      console.log("\nInvalid input.  Enter and 'p' or 'q' only.\n");
-    }
-  } while (!['p','q'].includes(playerInput.toLowerCase()));
-
-  if (playerInput.toLowerCase() === 'q' ) return false;
-  return true;
-}
-
 function displayResults(personHand, dealerHand) {
   let result = determineHandWinner(personHand, dealerHand);
+
   if (result === 'person') {
     console.log('Good Job! You won.\n');
   } else if (result === 'dealer') {
@@ -171,10 +163,27 @@ function pauseGame() {
 }
 
 function noMatchWinner(playerHandsWon, dealerHandsWon) {
-  if ((playerHandsWon < 2) && dealerHandsWon < 2) {
+  if ((playerHandsWon < 5) && dealerHandsWon < 5) {
     return true;
   }
   return false;
+}
+
+function displayMatchScore(playerHandsWon, dealerHandsWon) {
+  if (noMatchWinner(playerHandsWon, dealerHandsWon)) {
+    console.log(`\nCurrent Score: You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`);
+    pauseGame();
+  } else {
+
+    console.log('$'.repeat(80));
+    console.log(`\nFinal Score: You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`);
+    if (playerHandsWon > dealerHandsWon) {
+      console.log("Great match! You beat the house!");
+    } else {
+      console.log("Better luck next time.");
+    }
+    console.log('$'.repeat(80));
+  }
 }
 
 // Game Play
@@ -205,17 +214,16 @@ function noMatchWinner(playerHandsWon, dealerHandsWon) {
         displayCards(2);
       }
     }
+
     let result = displayResults(personHand, dealerHand);
+
     if (result === 'person') {
       playerHandsWon += 1;
     } else if (result === 'dealer') {
       dealerHandsWon += 1;
     }
-    if (noMatchWinner(playerHandsWon, dealerHandsWon)) {
-      console.log(`\nCurrent Score: You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`);
-      pauseGame();
-    }
-  } while (noMatchWinner(playerHandsWon, dealerHandsWon));
 
-  console.log(`\nFinal Score: You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`);
+    displayMatchScore(playerHandsWon, dealerHandsWon);
+
+  } while (noMatchWinner(playerHandsWon, dealerHandsWon));
 }
