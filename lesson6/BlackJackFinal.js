@@ -44,11 +44,14 @@ function dealHand(number, deck) {
 
 function displayCards(number) {
   if (number === 1) {
-    console.log(`\nYour Cards: ${personHand.join(' | ')} | Hand = ${countHandValue(personHand)}\n`);
-    console.log(colors.green.bold(`Dealer Cards:  ${dealerHand[1]} | ?\n\n`));
+    console.log(`\nYour Cards: ${personHand.join(' | ')}` +
+      ` | Hand = ${countHandValue(personHand)}\n`);
+    console.log(colors.green.bold(`Dealer Cards:  ${dealerHand[0]} | ?\n`));
   } else {
-    console.log(`\nYour Cards: ${personHand.join(' | ')} | Hand = ${countHandValue(personHand)}\n`);
-    console.log(colors.green.bold(`Dealer Cards: ${dealerHand.join(' | ')} | Hand = ${countHandValue(dealerHand)}\n\n`));
+    console.log(`\nYour Cards: ${personHand.join(' | ')}` +
+      ` | Hand = ${countHandValue(personHand)}\n`);
+    console.log(colors.green.bold(`Dealer Cards: ${dealerHand.join(' | ')}` +
+      ` | Hand = ${countHandValue(dealerHand)}\n`));
   }
 }
 
@@ -96,9 +99,9 @@ function countHandValue(hand) {
 function hitOrStay() {
   let playerInput;
   do {
-    playerInput = rlsync.question(fModules.prompt(MESSAGES['userInput']));
+    playerInput = rlsync.question(fModules.prompt(colors.bold.italic(MESSAGES['userInput'])));
     if ((!['h', 's'].includes(playerInput.toLowerCase()))) {
-      fModules.prompt(MESSAGES['invalidInput']);
+      fModules.prompt(colors.red.italic(MESSAGES['invalidInput']));
     }
   } while (!['h', 's'].includes(playerInput.toLowerCase()));
 
@@ -144,11 +147,11 @@ function displayHandResult(personHand, dealerHand) {
   let result = determineHandWinner(personHand, dealerHand);
 
   if (result === 'person') {
-    fModules.prompt(MESSAGES['youWonHand']);
+    fModules.prompt(colors.brightYellow.bold.italic(MESSAGES['youWonHand']));
   } else if (result === 'dealer') {
-    fModules.prompt(MESSAGES['dealerWonHand']);
+    fModules.prompt(colors.brightYellow.bold.italic(MESSAGES['dealerWonHand']));
   } else {
-    fModules.prompt(MESSAGES['draw']);
+    fModules.prompt(colors.brightYellow.bold.italic(MESSAGES['draw']));
   }
   return result;
 }
