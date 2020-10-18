@@ -1,9 +1,9 @@
-
-//const fs = require('fs');
+const fModules = require("./functionModules.js");
+const fs = require('fs');
 const colors = require('colors');
 const rlsync = require('readline-sync');
-//const fileData = fs.readFileSync('./myBlackJackMessages.json', 'utf8');
-//const MESSAGES = JSON.parse(fileData);
+const fileData = fs.readFileSync('./blackJackMessages.json', 'utf8');
+const MESSAGES = JSON.parse(fileData);
 
 
 const CARDS = {
@@ -96,9 +96,9 @@ function countHandValue(hand) {
 function hitOrStay() {
   let playerInput;
   do {
-    playerInput = rlsync.question(`Press 'h' for a hit and 's' to stay: `);
+    playerInput = rlsync.question(fModules.prompt(MESSAGES['userInput']));
     if ((!['h', 's'].includes(playerInput.toLowerCase()))) {
-      console.log("\nInvalid input.  Enter and 'h' or 's' only.\n");
+      fModules.prompt(MESSAGES['invalidInput']);
     }
   } while (!['h', 's'].includes(playerInput.toLowerCase()));
 
@@ -144,11 +144,11 @@ function displayHandResult(personHand, dealerHand) {
   let result = determineHandWinner(personHand, dealerHand);
 
   if (result === 'person') {
-    console.log('Good Job! You won.\n');
+    fModules.prompt(MESSAGES['youWonHand']);
   } else if (result === 'dealer') {
-    console.log('Sorry, the dealer won this hand.\n');
+    fModules.prompt(MESSAGES['dealerWonHand']);
   } else {
-    console.log("It's a draw!\n");
+    fModules.prompt(MESSAGES['draw']);
   }
   return result;
 }
@@ -156,9 +156,9 @@ function displayHandResult(personHand, dealerHand) {
 function pauseGame() {
   let playerInput;
   do {
-    playerInput = rlsync.question(colors.brightBlue.bold(`Press 'n' to see the next card or to start a new hand: `));
+    playerInput = rlsync.question(fModules.prompt(colors.brightBlue.bold(MESSAGES['nextPlay'])));
     if (playerInput.toLowerCase() !== 'n') {
-      console.log("\nInvalid input.  Enter and 'n' to resume match: \n");
+      fModules.prompt(colors.brightBlue.bold(MESSAGES['invalidEntry']));
     }
   } while (playerInput.toLowerCase() !== 'n');
   console.clear();
@@ -173,16 +173,18 @@ function checkForMatchWinner(playerHandsWon, dealerHandsWon) {
 
 function displayMatchScore(playerHandsWon, dealerHandsWon) {
   if (checkForMatchWinner(playerHandsWon, dealerHandsWon)) {
-    console.log(colors.bold(`\nCurrent Match Score: You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`));
+    fModules.prompt(colors.bold(MESSAGES['currentScore'] +
+       ` You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`));
     pauseGame();
   } else {
 
     console.log('$'.repeat(80));
-    console.log(colors.red.bold(`\nFinal Match Score: You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`));
+    fModules.prompt(colors.red.bold(MESSAGES['finalScore'] +
+       ` You = ${playerHandsWon} | Dealer = ${dealerHandsWon}\n`));
     if (playerHandsWon > dealerHandsWon) {
-      console.log("Great match! You beat the house!\n");
+      fModules.prompt(MESSAGES['youWonMatch']);
     } else {
-      console.log("Better luck next time.\n");
+      fModules.prompt(MESSAGES['dealerWonMatch']);
     }
     console.log('$'.repeat(80) + '\n');
   }
@@ -190,7 +192,7 @@ function displayMatchScore(playerHandsWon, dealerHandsWon) {
 
 // Game Play
 {
-  console.log(colors.bold("\nWelcome to Black Jack! First player to win 5 hands wins the match.  Good Luck!\n"));
+  fModules.prompt(colors.bold(MESSAGES['greeting']));
   let playerHandsWon = 0;
   let dealerHandsWon = 0;
 

@@ -1,0 +1,14 @@
+{
+  "greeting": "Welcome to Black Jack! First player to win 5 hands wins the match.  Good Luck!\n",
+  "userInput": "Press 'h' for a hit and 's' to stay: ",
+  "invalidInput":"Invalid input.  Enter and 'h' or 's' only.",
+  "nextPlay": "Press 'n' to see the next card or to start a new hand: ",
+  "invalidEntry": "Invalid input.  Enter and 'n' to resume match: ",
+  "draw": "It's a draw!  Play Again...\n",
+  "dealerWonHand": "Sorry, the dealer won this hand.\n",
+  "youWonHand": "Good Job! You won.\n",
+  "currentScore": "Current Match Score:",
+  "finalScore": "Final Match Score",
+  "dealerWonMatch": "House wins. Better luck next time.\n",
+  "youWonMatch": "Great match! You beat the house!\n"
+}
